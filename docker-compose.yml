@@ -11,3 +11,6 @@ services:
         - MYSQL_ROOT_PASSWORD=${AUTH_DB_ROOT_PASSWORD}
     ports:
       - "${AUTH_DB_PORT}:3306"
+  auth-service:
+    build:
+      dockerfile: auth-service.Dockerfile
