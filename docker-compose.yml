@@ -1,7 +1,6 @@
-version: '3.3'
 services:
 ### MySQL Container
-  auth_db:
+  auth-db:
     build:
       dockerfile: auth-db.Dockerfile
       args:
@@ -12,5 +11,13 @@ services:
     ports:
       - "${AUTH_DB_PORT}:3306"
   auth-service:
+  #TODO: Drop env_file
+    env_file: .env
     build:
       dockerfile: auth-service.Dockerfile
+      args:
+        - API_KEY=${AUTH_SERVICE_API_KEY}
+        - ADMIN_PASS=${AUTH_SERVICE_ADMIN_PASS}
+        - URLS=${AUTH_SERVICE_URLS}
+    ports:
+      - "5062:5062"
