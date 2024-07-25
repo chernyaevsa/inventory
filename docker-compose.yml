@@ -20,5 +20,10 @@ services:
         - API_KEY=${AUTH_SERVICE_API_KEY}
         - ADMIN_PASS=${AUTH_SERVICE_ADMIN_PASS}
         - URLS=${AUTH_SERVICE_URLS}
+  nginx:
+    build:
+      dockerfile: nginx.Dockerfile
+      args:
+        - DOMAIN=${DOMAIN}
     ports:
-      - "8080:8080"
+      - "80:80"
