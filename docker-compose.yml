@@ -16,8 +16,9 @@ services:
     build:
       dockerfile: auth-service.Dockerfile
       args:
+        - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
         - API_KEY=${AUTH_SERVICE_API_KEY}
         - ADMIN_PASS=${AUTH_SERVICE_ADMIN_PASS}
         - URLS=${AUTH_SERVICE_URLS}
     ports:
-      - "5062:5062"
+      - "8080:8080"

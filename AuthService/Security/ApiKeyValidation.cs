@@ -2,6 +2,7 @@ namespace AuthService.Security
 {
    public class ApiKeyValidation : IApiKeyValidation
     {
+        private static bool IsTurnOff = false;
         private readonly IConfiguration _configuration;
         public ApiKeyValidation(IConfiguration configuration)
         {
@@ -9,6 +10,7 @@ namespace AuthService.Security
         }
         public bool IsValidApiKey(string userApiKey)
         {   
+            if (IsTurnOff) return true;
             if (string.IsNullOrWhiteSpace(userApiKey))
                 return false;
             string? apiKey = _configuration.GetValue<string>(Constants.ApiKeyName);
@@ -16,6 +18,8 @@ namespace AuthService.Security
                 return false;
             return true;
         }
+
+        public static void TurnOff() => IsTurnOff = true;
     } 
 }
 

@@ -15,10 +15,11 @@ namespace AuthService.Controllers
         }
         private IApiKeyValidation apiKeyValidation;
 
-        [HttpGet]
-        [Route("{id}")]
+        [HttpPost]
         public IActionResult GetById(GetUserByIdRequestView request)
         {
+            if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
+                return Unauthorized(new BaseResponseView("ApiKey is not valid", 401, null));
             AuthDbContext db = new AuthDbContext();
             var user = db.Users.FirstOrDefault(x => x.Id == request.UserId);
             if (user == null) 
