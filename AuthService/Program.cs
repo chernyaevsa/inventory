@@ -19,6 +19,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
     ApiKeyValidation.TurnOff();
+    AdminKeyValidation.TurnOff();
 }
 
 app.Run();
