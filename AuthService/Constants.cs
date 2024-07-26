@@ -10,7 +10,7 @@ namespace AuthService
         public const string AdminPassName = "AUTH_SERVICE_ADMIN_PASS";
 
         public const string ApiKeyErrorMessage = "ApiKey is not valid";
-        public const string AdminKeyErrorMessage = "ApiKey is not valid";
+        public const string AdminKeyErrorMessage = "Admin ApiKey is not valid";
     } 
 }
 
