@@ -54,7 +54,7 @@ namespace AuthService.Controllers
             if (token.User.IsBlocked == 1) 
                 return Ok(new BaseResponseView($"User is blocked", 403, null));
             if (token.ExpairDate < DateTime.Now)
-                return Unauthorized(new BaseResponseView($"This token is expair", 401, null));
+                return Unauthorized(new BaseResponseView($"This token is expired", 401, null));
             return Ok(new BaseResponseView($"Ok", 200, token.User));
         }
     }
