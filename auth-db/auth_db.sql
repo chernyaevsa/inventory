@@ -34,7 +34,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `auth_db`.`tokens` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `user_id` INT NOT NULL,
-  `expair_date` DATETIME NOT NULL,
+  `expire_date` DATETIME NOT NULL,
   `token` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_tokens_1_idx` (`user_id` ASC) VISIBLE,

@@ -1,7 +1,6 @@
-version: '3.3'
 services:
 ### MySQL Container
-  auth_db:
+  auth-db:
     build:
       dockerfile: auth-db.Dockerfile
       args:
@@ -11,3 +10,20 @@ services:
         - MYSQL_ROOT_PASSWORD=${AUTH_DB_ROOT_PASSWORD}
     ports:
       - "${AUTH_DB_PORT}:3306"
+  auth-service:
+  #TODO: Drop env_file
+    env_file: .env
+    build:
+      dockerfile: auth-service.Dockerfile
+      args:
+        - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+        - API_KEY=${AUTH_SERVICE_API_KEY}
+        - ADMIN_PASS=${AUTH_SERVICE_ADMIN_PASS}
+        - URLS=${AUTH_SERVICE_URLS}
+  nginx:
+    build:
+      dockerfile: nginx.Dockerfile
+      args:
+        - DOMAIN=${DOMAIN}
+    ports:
+      - "80:80"
