@@ -2,8 +2,9 @@ using AuthService.Views.BaseViews;
 
 namespace AuthService.Views.UserControllerViews
 {
-    public class GetTokenRequestView : BaseRequestView
+    public class ExpireTokenRequestView : BaseRequestView
     {
         public string Token { get; set; } = "";
+
     }
 }

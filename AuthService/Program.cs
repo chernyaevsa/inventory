@@ -1,3 +1,5 @@
+using AuthService.Controllers;
+using AuthService.Models;
 using AuthService.Security;
 
 var builder = WebApplication.CreateBuilder(args);

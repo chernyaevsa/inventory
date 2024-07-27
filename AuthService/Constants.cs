@@ -8,6 +8,7 @@ namespace AuthService
         public const string AuthDBPortName = "AUTH_DB_PORT";
         public const string ApiKeyName = "AUTH_SERVICE_API_KEY";
         public const string AdminPassName = "AUTH_SERVICE_ADMIN_PASS";
+        public const string AuthDBServerName = "AUTH_DB_SERVER_NAME";
 
         public const string ApiKeyErrorMessage = "ApiKey is not valid";
         public const string AdminKeyErrorMessage = "Admin ApiKey is not valid";

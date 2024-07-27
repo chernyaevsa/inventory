@@ -10,8 +10,10 @@ namespace AuthService.Controllers
     [Route("user")]
     public class UserController : ControllerBase
     {
+        private IConfiguration configuration;
         public UserController(IConfiguration configuration){
             apiKeyValidation = new AdminKeyValidation(configuration);
+            this.configuration = configuration;
         }
         private IApiKeyValidation apiKeyValidation;
 
@@ -20,7 +22,7 @@ namespace AuthService.Controllers
         {
             if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
                 return Unauthorized(new BaseResponseView(Constants.AdminKeyErrorMessage, 401, null));
-            AuthDbContext db = new AuthDbContext();
+            AuthDbContext db = new AuthDbContext(configuration);
             var user = db.Users.FirstOrDefault(x => x.Id == request.UserId);
             if (user == null) 
                 return NotFound(new BaseResponseView($"User ID {request.UserId} not found", 404, null));
@@ -33,7 +35,7 @@ namespace AuthService.Controllers
         public IActionResult GetAll(BaseRequestView request){
             if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
                 return Unauthorized(new BaseResponseView(Constants.AdminKeyErrorMessage, 401, null));
-            AuthDbContext db = new AuthDbContext();
+            AuthDbContext db = new AuthDbContext(configuration);
             var result = new BaseResponseView("Ok", 200, db.Users);
             return Ok(result);
         }
@@ -43,7 +45,7 @@ namespace AuthService.Controllers
         public IActionResult Remove(UserRequestView request){
             if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
                 return Unauthorized(new BaseResponseView(Constants.AdminKeyErrorMessage, 401, null));
-            AuthDbContext db = new AuthDbContext();
+            AuthDbContext db = new AuthDbContext(configuration);
             var user = db.Users.FirstOrDefault(x => x.Id == request.UserId);
             if (user == null)
                 return NotFound(new BaseResponseView($"User ID {request.UserId} not found", 404, null));
@@ -58,7 +60,7 @@ namespace AuthService.Controllers
         public IActionResult Add(UserAddRequestView request){
             if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
                 return Unauthorized(new BaseResponseView(Constants.AdminKeyErrorMessage, 401, null));
-            AuthDbContext db = new AuthDbContext();
+            AuthDbContext db = new AuthDbContext(configuration);
             var user = new User
             {
                 Name = request.Name,

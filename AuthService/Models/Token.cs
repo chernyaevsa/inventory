@@ -9,7 +9,7 @@ public partial class Token
 
     public int UserId { get; set; }
 
-    public DateTime ExpairDate { get; set; }
+    public DateTime ExpireDate { get; set; }
 
     public string Token1 { get; set; } = null!;
 
