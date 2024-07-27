@@ -1,3 +1,6 @@
+import 'package:auth/pages/add_page.dart';
+import 'package:auth/pages/auth_page.dart';
+import 'package:auth/pages/main_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,12 +12,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      title: "Inventory Auth",
+      initialRoute: "/auth",
+      routes: <String, WidgetBuilder>{
+        "/auth" : (BuildContext context) => const AuthPage(),
+        "/" : (BuildContext context) => MainPage(),
+        "/add" : (BuildContext context) => AddPage(),
+      },
     );
   }
 }
