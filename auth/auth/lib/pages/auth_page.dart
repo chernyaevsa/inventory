@@ -1,6 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
 
+import 'package:auth/preferences/preferences.dart';
+import 'package:auth/preferences/preferences_const.dart';
 import 'package:auth/widgets/image_section.dart';
 import 'package:auth/widgets/text_section.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,14 @@ class AuthPageState extends State<AuthPage>{
   final _addressController = TextEditingController();
   final _passwordController = TextEditingController();
   var status = "";
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+      .addPostFrameCallback((_) => loadAuth());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,7 +44,7 @@ class AuthPageState extends State<AuthPage>{
             const ImageSection(image: "images/lake.jpg"),
             TextSection(text: "Адрес", controller: _addressController, obscureText: false,),
             TextSection(text: "Пароль", controller: _passwordController, obscureText: true,),
-            CoolButton(function: Auth, text: "Вход"),
+            CoolButton(function: auth, text: "Вход"),
             Text("$status")
             ],
         ))),
@@ -43,7 +53,7 @@ class AuthPageState extends State<AuthPage>{
     
   }
 
-  void Auth() async{
+  void auth() async{
     var url = Uri.http(_addressController.text, "/user/all");
     var request = HashMap<String, dynamic>();
     request["apiKey"] = _passwordController.text;
@@ -60,6 +70,7 @@ class AuthPageState extends State<AuthPage>{
     if (response == null) {return;}
     
     if (response.statusCode == 200) {
+      await Preferences.saveAuth(_addressController.text, _passwordController.text);
       Navigator.pushNamed(context, "/");
     } else {
       setState(() {
@@ -69,5 +80,15 @@ class AuthPageState extends State<AuthPage>{
     }
     setState(() {});
   }
+
+  void loadAuth() async{
+    var address = await Preferences.getAddress();
+    var password = await Preferences.getPassword();
+    if (address == PreferencesConst.address || password == PreferencesConst.defaultPassword) return;
+    _addressController.text = address;
+    _passwordController.text = password;
+    auth();
+  } 
+
   
 }
