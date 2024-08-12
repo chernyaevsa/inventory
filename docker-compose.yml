@@ -36,7 +36,7 @@ services:
         - MYSQL_PASSWORD=${SERVICE_DB_PASSWORD}
         - MYSQL_ROOT_PASSWORD=${SERVICE_DB_ROOT_PASSWORD}
     ports:
-      - "${SERVICE_DB_PORT}:3306"
+      - "${SERVICE_DB_DEV_PORT}:3306"
   service:
   #TODO: Drop env_file
     env_file: .env

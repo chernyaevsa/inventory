@@ -6,8 +6,16 @@ namespace Service.Models;
 
 public partial class InventoryContext : DbContext
 {
-    public InventoryContext()
+    private string connectionString = "server=inventory;user=root;password=megapass;database=inventory";
+    public InventoryContext(IConfiguration configuration)
     {
+        string? server = configuration.GetValue<string>(Constants.ServiceDBServerName);
+        string? user = configuration.GetValue<string>(Constants.ServiceDBUserName);
+        string? password = configuration.GetValue<string>(Constants.ServiceDBPasswordName);
+        string? database = configuration.GetValue<string>(Constants.ServiceDBDatabaseName);
+        string? port = configuration.GetValue<string>(Constants.ServiceDBPortName);
+        connectionString = $"server={server};port={port};user={user};password={password};database={database}";
+        Console.WriteLine(connectionString);
     }
 
     public InventoryContext(DbContextOptions<InventoryContext> options)
@@ -33,7 +41,7 @@ public partial class InventoryContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("Server=127.0.0.1;Port=3307;User=root;password=megapass;database=inventory");
+        => optionsBuilder.UseMySQL(connectionString);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
