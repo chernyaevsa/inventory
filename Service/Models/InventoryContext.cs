@@ -15,7 +15,6 @@ public partial class InventoryContext : DbContext
         string? database = configuration.GetValue<string>(Constants.ServiceDBDatabaseName);
         string? port = configuration.GetValue<string>(Constants.ServiceDBPortName);
         connectionString = $"server={server};port={port};user={user};password={password};database={database}";
-        Console.WriteLine(connectionString);
     }
 
     public InventoryContext(DbContextOptions<InventoryContext> options)
