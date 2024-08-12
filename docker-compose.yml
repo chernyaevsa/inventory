@@ -27,3 +27,13 @@ services:
         - DOMAIN=${DOMAIN}
     ports:
       - "80:80"
+  service-db:
+    build:
+      dockerfile: service-db.Dockerfile
+      args:
+        - MYSQL_DATABASE=${SERVICE_DB_DATABASE}
+        - MYSQL_USER=${SERVICE_DB_USER}
+        - MYSQL_PASSWORD=${SERVICE_DB_PASSWORD}
+        - MYSQL_ROOT_PASSWORD=${SERVICE_DB_ROOT_PASSWORD}
+    ports:
+      - "${SERVICE_DB_PORT}:3306"
