@@ -37,3 +37,12 @@ services:
         - MYSQL_ROOT_PASSWORD=${SERVICE_DB_ROOT_PASSWORD}
     ports:
       - "${SERVICE_DB_PORT}:3306"
+  service:
+  #TODO: Drop env_file
+    env_file: .env
+    build:
+      dockerfile: service.Dockerfile
+      args:
+        - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+        - API_KEY=${SERVICE_API_KEY}
+        - URLS=${AUTH_SERVICE_URLS}
