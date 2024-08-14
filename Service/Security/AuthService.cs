@@ -1,8 +1,11 @@
+using System.Net.Http.Headers;
 using System.Net.Mime;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Text.Json.Serialization.Metadata;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Service.Security
 {
@@ -21,6 +24,7 @@ namespace Service.Security
                 return null;
             }
             HttpClient http = new HttpClient();
+            http.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             http.BaseAddress = new Uri(_address);
             return http;
         }
@@ -40,9 +44,12 @@ namespace Service.Security
             };
             var jsonData = JsonSerializer.Serialize(requestBody);
             
-            var result = await http.PostAsync("/token/check", JsonContent.Create(jsonData));
+            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var result = await http.PostAsync("/token/check", stringContent);
+            
             if (!result.IsSuccessStatusCode) {
-                Logger.Print(Logger.ERROR_MESSAGE, "GetUserName(token)", $"Status code is not succeed. Status code {result.StatusCode}");
+                var errorString = await result.Content.ReadAsStringAsync();
+                Logger.Print(Logger.ERROR_MESSAGE, "GetUserName(token)", $"Status code is not succeed. Message {errorString}");
                 return null;
             }
 
