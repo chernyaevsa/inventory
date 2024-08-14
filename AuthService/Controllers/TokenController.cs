@@ -26,8 +26,6 @@ namespace AuthService.Controllers
         [HttpPost]
         [Route("issue")]
         public IActionResult Issue(IssueTokenRequestView request){
-            if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
-                return Unauthorized(new BaseResponseView(Constants.ApiKeyErrorMessage, 401, null));
             var db = new AuthDbContext(configuration);
             var user = db.Users.FirstOrDefault(x => x.Login == request.Login && x.Password == request.Password);
             if (user == null)
