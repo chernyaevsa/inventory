@@ -84,7 +84,7 @@ ENGINE = InnoDB;
 -- Table `inventory`.`employees`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inventory`.`employees` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `surname` VARCHAR(45) NOT NULL,
   `name` VARCHAR(45) NOT NULL,
   `patronymic` VARCHAR(45) NOT NULL,
