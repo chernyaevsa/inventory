@@ -5,7 +5,7 @@ namespace Service.Views.Building
 {
     public class BuildingAddRequestView : BaseRequestView
     {
-        public int Id { get; set; }
+        public int Id { get; set; } = 0;
 
         public string Name { get; set; } = null!;
 

@@ -18,7 +18,7 @@ USE `inventory` ;
 -- Table `inventory`.`buildings`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `inventory`.`buildings` (
-  `id` INT NOT NULL,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
   `address` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))

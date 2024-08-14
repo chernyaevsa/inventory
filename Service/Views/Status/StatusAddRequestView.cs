@@ -5,6 +5,7 @@ namespace Service.Views.Building
 {
     public class StatusAddRequestView : BaseRequestView
     {
+        public int Id { get; set; } = 0;
         public int EquipmentId { get; set; }
 
         public int Status1 { get; set; }
