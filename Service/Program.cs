@@ -16,7 +16,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    ApiKeyValidation.TurnOff();
+    TokenValidation.TurnOff();
 }
 
 app.UseHttpsRedirection();

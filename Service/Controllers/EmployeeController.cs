@@ -12,16 +12,16 @@ namespace Service.Controllers
     {
         private IConfiguration configuration;
         public EmployeeController(IConfiguration configuration){
-            apiKeyValidation = new ApiKeyValidation(configuration);
+            apiKeyValidation = new TokenValidation(configuration);
             this.configuration = configuration;
         }
-        private IApiKeyValidation apiKeyValidation;
+        private ITokenValidation apiKeyValidation;
 
         [HttpPost]
-        public IActionResult GetById(IdBaseRequestView request)
+        public async Task<IActionResult> GetById(IdBaseRequestView request)
         {
-            if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
-                return Unauthorized(new BaseResponseView(Constants.ApiKeyErrorMessage, 401, null));
+            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+                return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
             var building = db.Buildings.FirstOrDefault(x => x.Id == request.Id);
             if (building == null) 
@@ -32,9 +32,9 @@ namespace Service.Controllers
 
         [HttpPost]
         [Route("all")]
-        public IActionResult GetAll(BaseRequestView request){
-            if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
-                return Unauthorized(new BaseResponseView(Constants.ApiKeyErrorMessage, 401, null));
+        public async Task<IActionResult> GetAll(BaseRequestView request){
+            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+                return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
             var result = new BaseResponseView("Ok", 200, db.Buildings);
             return Ok(result);
@@ -42,9 +42,9 @@ namespace Service.Controllers
 
         [HttpPost]
         [Route("del")]
-        public IActionResult Remove(IdBaseRequestView request){
-            if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
-                return Unauthorized(new BaseResponseView(Constants.ApiKeyErrorMessage, 401, null));
+        public async Task<IActionResult> Remove(IdBaseRequestView request){
+            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+                return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
             var user = db.Buildings.FirstOrDefault(x => x.Id == request.Id);
             if (user == null)
@@ -57,9 +57,9 @@ namespace Service.Controllers
 
         [HttpPost]
         [Route("add")]
-        public IActionResult Add(BuildingAddRequestView request){
-            if (!apiKeyValidation.IsValidApiKey(request.ApiKey)) 
-                return Unauthorized(new BaseResponseView(Constants.ApiKeyErrorMessage, 401, null));
+        public async Task<IActionResult> Add(BuildingAddRequestView request){
+            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+                return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
             /*var building = new Building
             {
