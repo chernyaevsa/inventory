@@ -10,7 +10,7 @@ namespace Service
         public const string ServiceDBServerName = "SERVICE_DB_SERVER_NAME";
         public const string AuthServiceAddressName = "AUTH_SERVICE_ADDRESS";
 
-        public const string TokenErrorMessage = "ApiKey is not valid";
+        public const string TokenErrorMessage = "Token is not valid";
     } 
 }
 
