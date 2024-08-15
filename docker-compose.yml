@@ -19,7 +19,6 @@ services:
         - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
         - API_KEY=${AUTH_SERVICE_API_KEY}
         - ADMIN_PASS=${AUTH_SERVICE_ADMIN_PASS}
-        - URLS=${AUTH_SERVICE_URLS}
   nginx:
     build:
       dockerfile: nginx.Dockerfile
@@ -45,4 +44,10 @@ services:
       args:
         - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
         - API_KEY=${SERVICE_API_KEY}
-        - URLS=${AUTH_SERVICE_URLS}
+  auth-crm:
+  #TODO: Drop env_file
+    env_file: .env
+    build:
+      dockerfile: auth-crm.Dockerfile
+      args:
+        - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
