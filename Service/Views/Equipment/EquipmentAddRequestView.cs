@@ -21,7 +21,7 @@ namespace Service.Views.Equipment
 
         public int TypeId { get; set; }
 
-        public Models.Equipment ToObj(bool withId = false){
+        public Models.Equipment ToObj(){
             var obj = new Models.Equipment(){
                 Name = this.Name,
                 Number = this.Number,
@@ -31,8 +31,16 @@ namespace Service.Views.Equipment
                 _1cKod = this._1cKod,
                 TypeId = this.TypeId
             };
-            if (withId) obj.Id = this.Id;
             return obj;
+        }
+        public void Edit(ref Models.Equipment equipment){
+            Name = this.Name;
+            Number = this.Number;
+            Count = this.Count;
+            Price = this.Price;
+            CabinetId = this.CabinetId;
+            _1cKod = this._1cKod;
+            TypeId = this.TypeId;
         }
     }
 }

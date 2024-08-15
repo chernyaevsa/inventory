@@ -77,7 +77,7 @@ namespace Service.Controllers
             var type = db.Types.FirstOrDefault(x=> x.Id == request.Id);
             if (type == null)
                 return NotFound(new BaseResponseView($"Type ID {request.Id} not found", 404, null));
-            type = request.ToObj(true);
+            request.Edit(ref type);
             db.Types.Update(type);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, type.Id);

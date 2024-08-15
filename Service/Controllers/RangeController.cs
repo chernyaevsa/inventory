@@ -77,7 +77,7 @@ namespace Service.Controllers
             var range = db.Ranges.FirstOrDefault(x=> x.Id == request.Id);
             if (range == null)
                 return NotFound(new BaseResponseView($"Range ID {request.Id} not found", 404, null));
-            range = request.ToObj(true);
+            request.Edit(ref range);
             db.Ranges.Update(range);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, range.Id);

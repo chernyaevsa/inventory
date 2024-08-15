@@ -12,14 +12,18 @@ namespace Service.Views.Employee
         public string Name { get; set; } = null!;
 
         public string Patronymic { get; set; } = null!;
-        public Models.Employee ToObj(bool withId = false){
+        public Models.Employee ToObj(){
             var obj = new Models.Employee(){
                 Name = this.Name,
                 Surname = this.Surname,
                 Patronymic = this.Patronymic
             };
-            if (withId) obj.Id = this.Id;
             return obj;
+        }
+        public void Edit(ref Models.Employee employee){
+            employee.Name = this.Name;
+            employee.Surname = this.Surname;
+            employee.Patronymic = this.Patronymic;
         }
     }
 }

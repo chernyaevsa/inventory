@@ -77,7 +77,7 @@ namespace Service.Controllers
             var status = db.Statuses.FirstOrDefault(x=> x.Id == request.Id);
             if (status == null)
                 return NotFound(new BaseResponseView($"Status ID {request.Id} not found", 404, null));
-            status = request.ToObj(true);
+            request.Edit(ref status);
             db.Statuses.Update(status);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, status.Id);

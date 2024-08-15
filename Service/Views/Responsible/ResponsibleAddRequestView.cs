@@ -11,14 +11,18 @@ namespace Service.Views.Responsible
         public int CabinetId { get; set; }
 
         public DateTime Datetime { get; set; }
-        public Models.Responsible ToObj(bool withId = false){
+        public Models.Responsible ToObj(){
             var obj = new Models.Responsible(){
                 EmployeeId = this.EmployeeId,
                 CabinetId = this.CabinetId,
                 Datetime = this.Datetime
             };
-            if (withId) obj.Id = this.Id;
             return obj;
+        }
+        public void Edit(ref Models.Responsible responsible){
+            responsible.EmployeeId = this.EmployeeId;
+            responsible.CabinetId = this.CabinetId;
+            responsible.Datetime = this.Datetime;
         }
     }
 }

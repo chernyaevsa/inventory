@@ -77,7 +77,7 @@ namespace Service.Controllers
             var responsible = db.Responsibles.FirstOrDefault(x=> x.Id == request.Id);
             if (responsible == null)
                 return NotFound(new BaseResponseView($"Responsible ID {request.Id} not found", 404, null));
-            responsible = request.ToObj(true);
+            request.Edit(ref responsible);
             db.Responsibles.Update(responsible);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, responsible.Id);

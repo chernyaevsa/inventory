@@ -77,7 +77,7 @@ namespace Service.Controllers
             var equipment = db.Equipment.FirstOrDefault(x=> x.Id == request.Id);
             if (equipment == null)
                 return NotFound(new BaseResponseView($"Equipment ID {request.Id} not found", 404, null));
-            equipment = request.ToObj(true);
+            request.Edit(ref equipment);
             db.Equipment.Update(equipment);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, equipment.Id);

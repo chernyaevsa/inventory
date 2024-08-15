@@ -77,7 +77,7 @@ namespace Service.Controllers
             var employee = db.Employees.FirstOrDefault(x=> x.Id == request.Id);
             if (employee == null)
                 return NotFound(new BaseResponseView($"Employee ID {request.Id} not found", 404, null));
-            employee = request.ToObj(true);
+            request.Edit(ref employee);
             db.Employees.Update(employee);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, employee.Id);

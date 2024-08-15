@@ -1,7 +1,7 @@
 using Service.Models;
 using Service.Views.BaseViews;
 
-namespace Service.Views.Building
+namespace Service.Views.Cabinet
 {
     public class CabinetAddRequestView : BaseRequestView
     {
@@ -10,13 +10,16 @@ namespace Service.Views.Building
         public string Name { get; set; } = null!;
 
         public int BuildingId { get; set; }
-        public Models.Cabinet ToObj(bool withId = false){
+        public Models.Cabinet ToObj(){
             var obj = new Models.Cabinet(){
                 Name = this.Name,
                 BuildingId = this.BuildingId
             };
-            if (withId) obj.Id = this.Id;
             return obj;
+        }
+        public void Edit(ref Models.Cabinet cabinet){
+            cabinet.Name = this.Name;
+            cabinet.BuildingId = this.BuildingId;
         }
     }
 }

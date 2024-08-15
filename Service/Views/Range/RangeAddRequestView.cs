@@ -12,14 +12,18 @@ namespace Service.Views.Range
         public DateTime DatetimeFrom { get; set; }
 
         public DateTime DatetimeTo { get; set; }
-        public Models.Range ToObj(bool withId = false){
+        public Models.Range ToObj(){
             var obj = new Models.Range(){
                 Name = this.Name,
                 DatetimeFrom = this.DatetimeFrom,
                 DatetimeTo = this.DatetimeTo
             };
-            if (withId) obj.Id = this.Id;
             return obj;
+        }
+        public void Edit(ref Models.Range range){
+            range.Name = this.Name;
+            range.DatetimeFrom = this.DatetimeFrom;
+            range.DatetimeTo = this.DatetimeTo;
         }
     }
 }

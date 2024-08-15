@@ -7,12 +7,14 @@ namespace Service.Views.Type
     {
         public int Id { get; set; } = 0;
         public string Name { get; set; } = null!;
-        public Models.Type ToObj(bool withId = false){
+        public Models.Type ToObj(){
             var obj = new Models.Type(){
                 Name = this.Name,
             };
-            if (withId) obj.Id = this.Id;
             return obj;
+        }
+        public void Edit(ref Models.Type type){
+            type.Name = this.Name;
         }
     }
 }

@@ -2,7 +2,7 @@ using Service.Models;
 using Service.Security;
 using Service.Views.BaseViews;
 using Microsoft.AspNetCore.Mvc;
-using Service.Views.Building;
+using Service.Views.Cabinet;
 
 namespace Service.Controllers 
 {
@@ -77,7 +77,7 @@ namespace Service.Controllers
             var cabinet = db.Cabinets.FirstOrDefault(x=> x.Id == request.Id);
             if (cabinet == null)
                 return NotFound(new BaseResponseView($"Cabinet ID {request.Id} not found", 404, null));
-            cabinet = request.ToObj(true);
+            request.Edit(ref cabinet);
             db.Cabinets.Update(cabinet);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, cabinet.Id);
