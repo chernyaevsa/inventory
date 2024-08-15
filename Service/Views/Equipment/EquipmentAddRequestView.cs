@@ -1,7 +1,7 @@
 using Service.Models;
 using Service.Views.BaseViews;
 
-namespace Service.Views.Building
+namespace Service.Views.Equipment
 {
     public class EquipmentAddRequestView : BaseRequestView
     {
@@ -20,5 +20,19 @@ namespace Service.Views.Building
         public string? _1cKod { get; set; }
 
         public int TypeId { get; set; }
+
+        public Models.Equipment ToObj(bool withId = false){
+            var obj = new Models.Equipment(){
+                Name = this.Name,
+                Number = this.Number,
+                Count = this.Count,
+                Price = this.Price,
+                CabinetId = this.CabinetId,
+                _1cKod = this._1cKod,
+                TypeId = this.TypeId
+            };
+            if (withId) obj.Id = this.Id;
+            return obj;
+        }
     }
 }

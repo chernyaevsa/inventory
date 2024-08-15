@@ -10,5 +10,18 @@ namespace Service.Views.Building
         public string Name { get; set; } = null!;
 
         public string Address { get; set; } = null!;
+        
+        public Models.Building ToObj(){
+            var obj = new Models.Building(){
+                Name = this.Name,
+                Address = this.Address
+            };
+            return obj;
+        }
+
+        public void Edit(ref Models.Building building){
+            building.Name = this.Name;
+            building.Address = this.Address;
+        }
     }
 }

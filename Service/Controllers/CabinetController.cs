@@ -12,44 +12,44 @@ namespace Service.Controllers
     {
         private IConfiguration configuration;
         public CabinetController(IConfiguration configuration){
-            apiKeyValidation = new TokenValidation(configuration);
+            tokenValidation = new TokenValidation(configuration);
             this.configuration = configuration;
         }
-        private ITokenValidation apiKeyValidation;
+        private ITokenValidation tokenValidation;
 
         [HttpPost]
         public async Task<IActionResult> GetById(IdBaseRequestView request)
         {
-            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+            if (!await tokenValidation.IsValidToken(request.Token)) 
                 return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
-            var building = db.Buildings.FirstOrDefault(x => x.Id == request.Id);
-            if (building == null) 
-                return NotFound(new BaseResponseView($"Building ID {request.Id} not found", 404, null));
-            var result = new BaseResponseView("Ok", 200, building);
+            var cabinet = db.Cabinets.FirstOrDefault(x => x.Id == request.Id);
+            if (cabinet == null) 
+                return NotFound(new BaseResponseView($"Cabinet ID {request.Id} not found", 404, null));
+            var result = new BaseResponseView("Ok", 200, cabinet);
             return Ok(result);
         }
 
         [HttpPost]
         [Route("all")]
         public async Task<IActionResult> GetAll(BaseRequestView request){
-            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+            if (!await tokenValidation.IsValidToken(request.Token)) 
                 return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
-            var result = new BaseResponseView("Ok", 200, db.Buildings);
+            var result = new BaseResponseView("Ok", 200, db.Cabinets);
             return Ok(result);
         }
 
         [HttpPost]
         [Route("del")]
         public async Task<IActionResult> Remove(IdBaseRequestView request){
-            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+            if (!await tokenValidation.IsValidToken(request.Token)) 
                 return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
-            var user = db.Buildings.FirstOrDefault(x => x.Id == request.Id);
-            if (user == null)
-                return NotFound(new BaseResponseView($"Building ID {request.Id} not found", 404, null));
-            db.Buildings.Remove(user);
+            var cabinet = db.Cabinets.FirstOrDefault(x => x.Id == request.Id);
+            if (cabinet == null)
+                return NotFound(new BaseResponseView($"Cabinet ID {request.Id} not found", 404, null));
+            db.Cabinets.Remove(cabinet);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, request.Id);
             return Ok(result);
@@ -57,20 +57,30 @@ namespace Service.Controllers
 
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Add(BuildingAddRequestView request){
-            if (!await apiKeyValidation.IsValidToken(request.Token)) 
+        public async Task<IActionResult> Add(CabinetAddRequestView request){
+            if (!await tokenValidation.IsValidToken(request.Token)) 
                 return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
-            /*var building = new Building
-            {
-                Name = request.Name,
-                Login = request.Login,
-                Password = request.Password,
-                Email = request.Email
-            };
-            db.Users.Add(user);
-            db.SaveChanges();*/
+            var cabinet = request.ToObj();
+            db.Cabinets.Add(cabinet);
+            db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, "DDD");
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("edit")]
+        public async Task<IActionResult> Edit(CabinetAddRequestView request){
+            if (!await tokenValidation.IsValidToken(request.Token)) 
+                return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
+            var db = new InventoryContext(configuration);
+            var cabinet = db.Cabinets.FirstOrDefault(x=> x.Id == request.Id);
+            if (cabinet == null)
+                return NotFound(new BaseResponseView($"Cabinet ID {request.Id} not found", 404, null));
+            cabinet = request.ToObj(true);
+            db.Cabinets.Update(cabinet);
+            db.SaveChanges();
+            var result = new BaseResponseView("Ok", 200, cabinet.Id);
             return Ok(result);
         }
 

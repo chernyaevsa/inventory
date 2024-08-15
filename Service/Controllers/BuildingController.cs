@@ -61,11 +61,7 @@ namespace Service.Controllers
             if (!await tokenValidation.IsValidToken(request.Token)) 
                 return Unauthorized(new BaseResponseView(Constants.TokenErrorMessage, 401, null));
             var db = new InventoryContext(configuration);
-            var building = new Building
-            {
-                Name = request.Name,
-                Address = request.Address
-            };
+            var building = request.ToObj();
             db.Buildings.Add(building);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, building.Id);
@@ -81,8 +77,7 @@ namespace Service.Controllers
             var building = db.Buildings.FirstOrDefault(x=> x.Id == request.Id);
             if (building == null)
                 return NotFound(new BaseResponseView($"Building ID {request.Id} not found", 404, null));
-            building.Name = request.Name;
-            building.Address = request.Address;
+            request.Edit(ref building);
             db.Buildings.Update(building);
             db.SaveChanges();
             var result = new BaseResponseView("Ok", 200, building.Id);
