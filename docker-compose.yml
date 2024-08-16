@@ -49,5 +49,5 @@ services:
     env_file: .env
     build:
       dockerfile: auth-crm.Dockerfile
-      args:
-        - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}
+  #    args:
+  #      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT}

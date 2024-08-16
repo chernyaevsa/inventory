@@ -1,22 +1,10 @@
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-WORKDIR /app
-#EXPOSE 8080
-
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS publish
+FROM instrumentisto/flutter:3.24
+RUN apt-get update && \
+    apt-get -y install nginx
+COPY auth-crm /src
 WORKDIR /src
+RUN flutter build web
+RUN rm -Rf /var/www/html
+RUN ln -s /src/build/web /var/www/html
+ENTRYPOINT [ "/bin/sh" , "-c", "exec nginx -g 'daemon off;'" ]
 
-COPY AuthCRM/*.sln .
-COPY AuthCRM/*.csproj .
-RUN dotnet restore -v n /ignoreprojectextensions:.dcproj
-
-COPY AuthCRM/. .
-RUN dotnet publish AuthCRM.csproj -c debug -o /app
-
-ARG ASPNETCORE_ENVIRONMENT
-
-ENV ASPNETCORE_ENVIRONMENT=$ASPNETCORE_ENVIRONMENT
-
-FROM base AS final
-WORKDIR /app
-COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "AuthCRM.dll"]
