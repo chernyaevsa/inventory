@@ -1,4 +1,6 @@
+import 'package:authcrm/src/app.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import 'settings_controller.dart';
 
@@ -17,7 +19,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings'),
+        title: Text(AppLocalizations.of(context)!.settingsTitle),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -25,26 +27,32 @@ class SettingsView extends StatelessWidget {
         //
         // When a user selects a theme from the dropdown list, the
         // SettingsController is updated, which rebuilds the MaterialApp.
-        child: DropdownButton<ThemeMode>(
-          // Read the selected themeMode from the controller
-          value: controller.themeMode,
-          // Call the updateThemeMode method any time the user selects a theme.
-          onChanged: controller.updateThemeMode,
-          items: const [
-            DropdownMenuItem(
-              value: ThemeMode.system,
-              child: Text('System Theme'),
-            ),
-            DropdownMenuItem(
-              value: ThemeMode.light,
-              child: Text('Light Theme'),
-            ),
-            DropdownMenuItem(
-              value: ThemeMode.dark,
-              child: Text('Dark Theme'),
-            )
+        child: Column(
+          children: [
+            DropdownButton<ThemeMode>(
+            // Read the selected themeMode from the controller
+            value: controller.themeMode,
+            // Call the updateThemeMode method any time the user selects a theme.
+            onChanged: controller.updateThemeMode,
+            items: const [
+              DropdownMenuItem(
+                value: ThemeMode.system,
+                child: Text('System Theme'),
+              ),
+              DropdownMenuItem(
+                value: ThemeMode.light,
+                child: Text('Light Theme'),
+              ),
+              DropdownMenuItem(
+                value: ThemeMode.dark,
+                child: Text('Dark Theme'),
+              )
+            ],
+          ),
           ],
-        ),
+        )
+        
+        
       ),
     );
   }

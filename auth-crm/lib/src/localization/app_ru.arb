@@ -3,6 +3,6 @@
   "@appTitle": {
     "description": "The title of the application"
   },
-  "authTitle": "Authorization",
-  "settingsTitle": "Settings"
+  "authTitle": "Авторизация",
+  "settingsTitle": "Настройки"
 }
